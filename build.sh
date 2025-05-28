@@ -1,10 +1,5 @@
 #!/usr/bin/env bash
-#
-# Optimized Kernel Build Script with Neutron Clang (antman)
-# Supports A/B Dynamic Partitions & KernelSU
-# Copyright (C) 2025 Alh4y3k
 
-### --- Config --- ###
 DEVICE_CODENAME="stone"
 DEVICE_NAME="Redmi Note 12 5G/POCO X5 5G"
 KERNEL_NAME="CyberEdge"
@@ -12,7 +7,6 @@ KERNEL_DEFCONFIG="nethunter_defconfig"
 ANYKERNEL_DIR="$PWD/anykernel"
 BUILD_TYPE="RELEASE"
 
-### --- Neutron Clang (antman) Setup --- ###
 NEUTRON_DIR="$PWD/clang-neutron"
 function setup_neutron() {
     if [ ! -d "$NEUTRON_DIR" ]; then
@@ -30,7 +24,6 @@ function setup_neutron() {
     echo "[+] Compiler: $COMPILER_STRING"
 }
 
-### --- KernelSU --- ###
 echo -n "Include KernelSU? (y/n): "
 read -r KERNELSU
 [ "$KERNELSU" = "y" ] && {
@@ -42,7 +35,6 @@ read -r KERNELSU
     }
 }
 
-### --- Build --- ###
 export ARCH=arm64
 export LLVM=1
 export LLVM_IAS=1
@@ -64,7 +56,6 @@ function compile() {
         CROSS_COMPILE_ARM32=arm-linux-gnueabi-
 }
 
-### --- Package --- ###
 function package() {
     [ ! -f "out/arch/arm64/boot/Image" ] && {
         echo "❌ Kernel Image missing!"
