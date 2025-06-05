@@ -781,10 +781,22 @@ struct wireless_dev *__wlan_hdd_add_virtual_intf(struct wiphy *wiphy,
 				hdd_exit();
 				return adapter->dev->ieee80211_ptr;
 			}
-		} else {
-			hdd_err("Adding monitor interface not supported");
-			return ERR_PTR(-EINVAL);
-		}
+} else {
+    hdd_info("Creating monitor interface (forced)");
+    ret = wlan_hdd_add_monitor_check(hdd_ctx,
+                                     &adapter, name, true,
+                                     name_assign_type);
+    if (ret)
+        return ERR_PTR(-EINVAL);
+    if (adapter) {
+        hdd_exit();
+        return adapter->dev->ieee80211_ptr;
+    }
+}
+//		} else {
+//			hdd_err("Adding monitor interface not supported");
+//			return ERR_PTR(-EINVAL);
+//		}
 	}
 
 	adapter = NULL;
